@@ -4,5 +4,3 @@ spacy==2.3.5
 textblob
 streamlit
 fpdf
-base64
-os
