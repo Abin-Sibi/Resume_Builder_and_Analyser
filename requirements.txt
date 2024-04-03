@@ -1,7 +1,6 @@
 streamlit
 PyPDF2
 spacy==2.3.5
-collections
 textblob
 streamlit
 fpdf
