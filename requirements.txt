@@ -1,7 +1,6 @@
 streamlit
 PyPDF2
-spacy
-spacy.matcher
+spacy==2.3.5
 spacy.lang.en.stop_words
 collections
 textblob
