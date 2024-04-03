@@ -1,0 +1,11 @@
+streamlit
+PyPDF2
+spacy
+spacy.matcher
+spacy.lang.en.stop_words
+collections
+textblob
+streamlit
+fpdf
+base64
+os
