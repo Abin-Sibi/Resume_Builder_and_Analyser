@@ -2,13 +2,10 @@ import streamlit as st
 from PyPDF2 import PdfReader
 import spacy
 from spacy.matcher import PhraseMatcher
-from spacy.lang.en.stop_words import STOP_WORDS
 from collections import Counter
 from textblob import TextBlob
 
-# st.set_page_config(page_title="This is the Multipage Webapp")
-# st.sidebar.success("Select any page from here")
-
+# Function to extract text from PDF
 def extract_text_from_pdf(file):
     text = ""
     pdf_reader = PdfReader(file)
@@ -46,11 +43,25 @@ def check_eligibility(resume_text, job_role, experience_years, highest_degree):
     
     doc = nlp(resume_text.lower())
     matches = matcher(doc)
-    
-    if matches:
-        return True
+
+    # Calculate percentage of matches
+    total_inputs = 3
+    unique_matches = set()  # To store unique matches
+    for match_id, start, end in matches:
+        if nlp.vocab.strings[match_id] == 'JOB_ROLE':
+            unique_matches.add('JOB_ROLE')
+        elif nlp.vocab.strings[match_id] == 'EXPERIENCE':
+            unique_matches.add('EXPERIENCE')
+        elif nlp.vocab.strings[match_id] == 'DEGREE':
+            unique_matches.add('DEGREE')
+
+    percentage_matched = (len(unique_matches) / total_inputs) * 100
+
+    # Check eligibility based on percentage
+    if percentage_matched >= 60:
+        return True, percentage_matched
     else:
-        return False
+        return False, percentage_matched
 
 # Streamlit app
 def main():
@@ -85,14 +96,13 @@ def main():
 
         # Check eligibility
         if job_role and experience_years and highest_degree:
-            is_eligible = check_eligibility(resume_text, job_role, experience_years, highest_degree)
+            is_eligible, percentage_matched = check_eligibility(resume_text, job_role, experience_years, highest_degree)
+            st.header("Eligibility Check:")
             if is_eligible:
-                st.header("Eligibility Check:")
-                st.write("Congratulations! You are eligible for the job.")
+                st.write(f"Congratulations! You are eligible for the job with {percentage_matched:.2f}% match.")
                 st.write("Skills, projects, and other relevant information can be found in the resume.")
             else:
-                st.header("Eligibility Check:")
-                st.write("You are not eligible for the job. Please try again with a different resume or input.")
+                st.write(f"You are not eligible for the job. Your match percentage is {percentage_matched:.2f}%, which is below 60%. Please try again with a different resume or input.")
     
 if __name__ == '__main__':
     main()
