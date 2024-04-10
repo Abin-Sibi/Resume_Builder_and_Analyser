@@ -4,5 +4,5 @@ spacy==2.3.5
 textblob
 streamlit
 fpdf
-matplotlib.pyplot
+matplotlib
 seaborn
