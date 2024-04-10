@@ -14,13 +14,11 @@ def extract_text_from_pdf(file):
         text += page.extract_text()
     return text
 
-# Function to perform sentiment analysis
 def analyze_sentiment(text):
     blob = TextBlob(text)
     sentiment = blob.sentiment
     return sentiment
 
-# Function to extract keywords using NLP
 def extract_keywords(text):
     nlp = spacy.load('en_core_web_sm')
     doc = nlp(text)
@@ -29,7 +27,6 @@ def extract_keywords(text):
     most_common_words = word_freq.most_common(10)
     return most_common_words
 
-# Function to check eligibility based on job role, experience, and degree
 def check_eligibility(resume_text, job_role, experience_years, highest_degree):
     nlp = spacy.load('en_core_web_sm')
     matcher = PhraseMatcher(nlp.vocab)

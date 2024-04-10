@@ -3,8 +3,6 @@ from fpdf import FPDF
 import base64
 import os
 
-# Function to generate PDF resume
-# Function to generate PDF resume
 def generate_resume(name, job_title, about, email, phone, address, skills, experience, education, projects, declaration):
     pdf = FPDF()
     pdf.add_page()
